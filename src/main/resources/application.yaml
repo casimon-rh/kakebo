@@ -1,0 +1,14 @@
+
+"%dev":
+  quarkus:
+    datasource:
+      db-kind: postgresql
+      username: postgres
+      password: psql
+      jdbc:
+        url: jdbc:postgresql://localhost:5432/kakebo
+    hibernate-orm:
+      database:
+        generation: drop-and-create
+      log:
+        sql: true
