@@ -3,6 +3,7 @@ package com.example.kakebo.Repository;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
@@ -16,8 +17,8 @@ import com.example.kakebo.entity.Categoria;
 
 @ApplicationScoped
 @Path("/categoria")
-@Produces("text/plain")
-@Consumes("text/plain")
+@Produces("application/json")
+@Consumes("application/json")
 public class CategoriaRepository {
 
   @Inject
@@ -34,8 +35,10 @@ public class CategoriaRepository {
   @Transactional
   public Response create(Categoria cat) {
     EntityManager em = kjf.getEntityManager();
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
     em.persist(cat);
-    em.flush();
+    tx.commit();
     return Response.ok().build();
   }
 
