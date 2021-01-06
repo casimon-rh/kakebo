@@ -26,4 +26,12 @@ public class Categoria {
 
   @OneToMany(mappedBy = "categoria")
   private Set<LogDiario> logs;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }
