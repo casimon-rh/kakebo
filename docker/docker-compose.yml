@@ -1,0 +1,29 @@
+version: '3'
+services:
+  kakebo:
+    build:
+      context: ../
+      dockerfile: docker/thorntail.dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      example:
+        aliases:
+            - kakebo
+    depends_on:
+      - database
+    links:
+      - database
+  database:
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: psql
+    networks:
+      example:
+        aliases:
+            - database
+networks:
+  example:
+    driver: bridge

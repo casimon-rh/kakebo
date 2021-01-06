@@ -37,8 +37,6 @@ public class LogDiario {
   @JsonIgnore
   private Categoria categoria;
 
-  @JsonProperty("idCategoria")
-  private Long idCategoria;
 
   public Date getFecha() {
     return fecha;
@@ -62,13 +60,5 @@ public class LogDiario {
 
   public void setCategoria(Categoria categoria) {
     this.categoria = categoria;
-  }
-
-  public Long getIdCategoria() {
-    return idCategoria;
-  }
-
-  public void setIdCategoria(Long idCategoria) {
-    this.idCategoria = idCategoria;
   }
 }

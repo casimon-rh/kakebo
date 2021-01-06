@@ -66,10 +66,10 @@ public class LogDiarioRepository {
     LogDiario lo = em.find(LogDiario.class, id);
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    if (log.getIdCategoria() > 0) {
-      lo.setIdCategoria(log.getIdCategoria());
-      lo.setCategoria(em.find(Categoria.class, log.getIdCategoria()));
-    }
+//    if (log.getIdCategoria() > 0) {
+//      lo.setIdCategoria(log.getIdCategoria());
+//      lo.setCategoria(em.find(Categoria.class, log.getIdCategoria()));
+//    }
     lo.setFecha(log.getFecha());
     lo.setMonto(log.getMonto());
     tx.commit();
