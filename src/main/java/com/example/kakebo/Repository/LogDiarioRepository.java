@@ -1,25 +1,22 @@
 package com.example.kakebo.Repository;
 
+import com.example.kakebo.entity.Categoria;
+import com.example.kakebo.entity.LogDiario;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import com.example.kakebo.entity.Categoria;
-
 @ApplicationScoped
-@Path("/categoria")
+@Path("/log")
 @Produces("application/json")
 @Consumes("application/json")
-public class CategoriaRepository {
+public class LogDiarioRepository {
 
   @Inject
   private KakeboJPAFactory kjf;
@@ -27,25 +24,25 @@ public class CategoriaRepository {
   @GET
   public Response getAll() {
     EntityManager em = kjf.getEntityManager();
-    CriteriaQuery<Categoria> cq = em.getCriteriaBuilder().createQuery(Categoria.class);
-    return Response.ok(em.createQuery(cq.select(cq.from(Categoria.class))).getResultList()).build();
+    CriteriaQuery<LogDiario> cq = em.getCriteriaBuilder().createQuery(LogDiario.class);
+    return Response.ok(em.createQuery(cq.select(cq.from(LogDiario.class))).getResultList()).build();
   }
   @GET
   @Path("{id}")
   public Response getOne(@PathParam("id") long id){
     EntityManager em = kjf.getEntityManager();
-    return Response.ok(em.find(Categoria.class, id)).build();
+    return Response.ok(em.find(LogDiario.class, id)).build();
   }
 
   @POST
   @Transactional
-  public Response create(Categoria cat) {
+  public Response create(LogDiario log) {
     EntityManager em = kjf.getEntityManager();
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    em.persist(cat);
+    em.persist(log);
     tx.commit();
-    return Response.ok(cat).build();
+    return Response.ok(log).build();
   }
 
   @DELETE
@@ -53,10 +50,10 @@ public class CategoriaRepository {
   @Path("{id}")
   public Response delete(@PathParam("id") long id) {
     EntityManager em = kjf.getEntityManager();
-    Categoria cat = em.find(Categoria.class, id);
+    LogDiario log = em.find(LogDiario.class, id);
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    em.remove(cat);
+    em.remove(log);
     tx.commit();
     return Response.ok().build();
   }
@@ -64,13 +61,18 @@ public class CategoriaRepository {
   @PUT
   @Transactional
   @Path("{id}")
-  public Response update(@PathParam("id") long id, Categoria cate) {
+  public Response update(@PathParam("id") long id, LogDiario log) {
     EntityManager em = kjf.getEntityManager();
-    Categoria cat = em.find(Categoria.class, id);
+    LogDiario lo = em.find(LogDiario.class, id);
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    cat.setName(cate.getName());
+    if (log.getIdCategoria() > 0) {
+      lo.setIdCategoria(log.getIdCategoria());
+      lo.setCategoria(em.find(Categoria.class, log.getIdCategoria()));
+    }
+    lo.setFecha(log.getFecha());
+    lo.setMonto(log.getMonto());
     tx.commit();
-    return Response.ok(cat).build();
+    return Response.ok(lo).build();
   }
 }

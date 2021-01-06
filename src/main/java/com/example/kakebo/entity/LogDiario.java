@@ -2,6 +2,9 @@ package com.example.kakebo.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,16 +21,54 @@ public class LogDiario {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
+  @JsonProperty("id")
   private Long id;
   
   @Column(name="fecha")
+  @JsonProperty("fecha")
   private Date fecha;
 
   @Column(name="monto")
+  @JsonProperty("monto")
   private double monto;
 
   @ManyToOne
   @JoinColumn(name ="idCategoria", referencedColumnName = "id")
+  @JsonIgnore
   private Categoria categoria;
-  
+
+  @JsonProperty("idCategoria")
+  private Long idCategoria;
+
+  public Date getFecha() {
+    return fecha;
+  }
+
+  public void setFecha(Date fecha) {
+    this.fecha = fecha;
+  }
+
+  public double getMonto() {
+    return monto;
+  }
+
+  public void setMonto(double monto) {
+    this.monto = monto;
+  }
+
+  public Categoria getCategoria() {
+    return categoria;
+  }
+
+  public void setCategoria(Categoria categoria) {
+    this.categoria = categoria;
+  }
+
+  public Long getIdCategoria() {
+    return idCategoria;
+  }
+
+  public void setIdCategoria(Long idCategoria) {
+    this.idCategoria = idCategoria;
+  }
 }
